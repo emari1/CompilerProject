@@ -1,0 +1,14 @@
+Elijah Francis Mari
+Programming language used was Java version 23 using the OpenJDK 23 version from 2024-09-17
+Java compiler IntelliJ
+IDE used is IntelliJ Ultimate Edition
+To compile type "javac Main.java" and "javac token.java"
+
+
+--How to use
+Install Java 23 of choice
+Compile using javac Main.java and javac token.java
+to run this program do java Main.java and java token.java
+When ran, User will be prompted to paste in the file destination of their preferred text
+use the absolute path. specific parameters werent done just in case the user 
+is on a Unix based Operating System such as Ubuntu and MacOs
