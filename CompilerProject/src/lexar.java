@@ -491,7 +491,7 @@ public class lexar {
         if(kind().equals("while")){
             Match("while");
         }
-        //Expression;
+        Expression();
         Match("do");
         Body();
         Match("end");
