@@ -396,6 +396,7 @@ public class lexar {
         System.out.println(kind());
         System.out.println(values.getValue());
         if(kind().equals(CSYM) || values.getValue().equals(CSYM)){
+            System.out.println("match successful for "+CSYM);
             next(reader);
         }
         else{
@@ -441,6 +442,7 @@ public class lexar {
         if (kind().equals("ID")){
             Assignment();
         } else if (kind().equals("if")) {
+            System.out.println("hello");
             conditional();
         }
         else if (kind().equals("while")){
@@ -473,16 +475,19 @@ public class lexar {
     }
 
     public static void conditional() throws IOException {
-        if (kind().equals("ID")){
-            Match("ID");
+        if (kind().equals("if")){
+            Match("if");
             Expression();
             Match("then");
             Body();
             if(kind().equals("else")){
-                next(reader);
+                Match("else");
                 Body();
             }
+            System.out.println("we reached the end");
             Match("end");
+
+
 
         }
     }
@@ -524,22 +529,42 @@ public class lexar {
     }
 
     public static void factor() throws IOException {
-        if(kind().equals("_") || kind().equals("not")){
-            next(reader);
+
+        // Handle unary operators FIRST — but cleaner
+        if (values.getValue().equals("not")) {
+            Match("not");
+            factor();
+            return;
         }
-        else if (kind().equals("true") || kind().equals("false") || kind().equals("NUM")){
-            literal();
-        } else if (kind().equals("ID")) {
-            next(reader);
-        } else if (kind().equals("(")) {
-            next(reader);
+
+        // ( expression )
+        if (kind().equals("(")) {
+            Match("(");
             Expression();
             Match(")");
+            return;
         }
-        else{
-            System.out.println("expected");
+
+        // Literals
+        if (kind().equals("true") || kind().equals("false")) {
+            booleanLiteral();
+            return;
         }
+
+        if (kind().equals("NUM")) {
+            next(reader);
+            return;
+        }
+
+        // ID
+        if (kind().equals("ID")) {
+            next(reader);
+            return;
+        }
+
+        System.out.println("expected factor at " + Position());
     }
+
 
     public static void literal() throws IOException {
         if(kind().equals("true") || kind().equals("false") || kind().equals("NUM")){
