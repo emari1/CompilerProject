@@ -48,6 +48,8 @@ public class lexar {
             Match("ID");
             Match(":");
             Body();
+            Match(".");
+            System.out.println("Parsing completed");
             values.setName("");
             values.resetPosition();
             values.resetLine();
@@ -393,11 +395,12 @@ public class lexar {
     public static void Match(String CSYM) throws IOException {
         System.out.println(kind());
         System.out.println(values.getValue());
-        if(kind().equals(CSYM)){
+        if(kind().equals(CSYM) || values.getValue().equals(CSYM)){
             next(reader);
         }
         else{
            System.out.println("error at position "+Position()+ " "+values.getValue());
+           System.out.println("the CYSM is "+CSYM+" and the kind "+kind());
            System.exit(1);
         }
     }
@@ -434,6 +437,7 @@ public class lexar {
     }
 
     public static void Statement() throws IOException {
+        System.out.println(values.getValue());
         if (kind().equals("ID")){
             Assignment();
         } else if (kind().equals("if")) {
@@ -441,11 +445,11 @@ public class lexar {
         }
         else if (kind().equals("while")){
             iterative();
-        } else if (kind().equals("print")) {
+        } else if (values.getValue().equals("print")) {
             Print();
         }
         else{
-            System.out.println("expected ID,”if”,”while”,”print”}");
+            System.out.println("{expected ID,”if”,”while”,”print”}");
         }
     }
     public static void Expected(String setOfSymbols){
@@ -462,7 +466,7 @@ public class lexar {
     }
 
     public static void Print() throws IOException {
-        if(kind().equals("print")){
+        if(values.getValue().equals("print")){
             Match("print");
             Expression();
         }
@@ -512,7 +516,7 @@ public class lexar {
     }
 
     public static void term() throws IOException {
-        //Factor();
+        factor();
         while(kind().equals("*") || kind().equals("/") || kind().equals("and") || kind().equals("mod")){
             next(reader);
             factor();
