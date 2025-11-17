@@ -74,6 +74,7 @@ class LexicalAnalyzer {
                 if(relationalTrue((char) nextChar, (char) aheadChar)){
                     wordAdd.append((char) nextChar);
                     wordAdd.append((char) aheadChar);
+                    reader.skip(1);
                     values.setName(wordAdd.toString());
                     values.setPosition(values.getPosition());
                     values.setLine(values.getLine());

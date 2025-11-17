@@ -80,6 +80,7 @@ public class lexar {
                 if(relationalTrue((char) nextChar, (char) aheadChar)){
                     wordAdd.append((char) nextChar);
                     wordAdd.append((char) aheadChar);
+                    reader.skip(1);
                     values.setName(wordAdd.toString());
                     values.setPosition(values.getPosition());
                     values.setLine(values.getLine());
@@ -425,8 +426,14 @@ public class lexar {
         if(kind().equals("bool") || kind().equals("int")){
             next(reader);
             Match("ID");
+            while(kind().equals(",")){
+                next(reader);
+                Match("ID");
+
+            }
             Match(";");
         }
+
     }
 
     public static void Statements() throws IOException{
@@ -522,7 +529,7 @@ public class lexar {
 
     public static void term() throws IOException {
         factor();
-        while(kind().equals("*") || kind().equals("/") || kind().equals("and") || kind().equals("mod")){
+        while(kind().equals("*") || kind().equals("/") || values.getValue().equals("and") || values.getValue().equals("mod")){
             next(reader);
             factor();
         }
@@ -546,7 +553,7 @@ public class lexar {
         }
 
         // Literals
-        if (kind().equals("true") || kind().equals("false")) {
+        if (values.getValue().equals("true") || values.getValue().equals("false")) {
             booleanLiteral();
             return;
         }
@@ -578,7 +585,7 @@ public class lexar {
     }
 
     public static void booleanLiteral() throws IOException {
-        if(kind().equals("true") || kind().equals("false")){
+        if(values.getValue().equals("true") || values.getValue().equals("false")){
             next(reader);
         }
     }
