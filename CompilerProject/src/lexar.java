@@ -394,10 +394,10 @@ public class lexar {
     }
 
     public static void Match(String CSYM) throws IOException {
-        System.out.println(kind());
-        System.out.println(values.getValue());
+        //System.out.println(kind());
+        //System.out.println(values.getValue());
         if(kind().equals(CSYM) || values.getValue().equals(CSYM)){
-            System.out.println("match successful for "+CSYM);
+            //System.out.println("match successful for "+CSYM);
             next(reader);
         }
         else{
@@ -445,11 +445,11 @@ public class lexar {
     }
 
     public static void Statement() throws IOException {
-        System.out.println(values.getValue());
+        //System.out.println(values.getValue());
         if (kind().equals("ID")){
             Assignment();
         } else if (kind().equals("if")) {
-            System.out.println("hello");
+            //System.out.println("hello");
             conditional();
         }
         else if (kind().equals("while")){
@@ -459,6 +459,8 @@ public class lexar {
         }
         else{
             System.out.println("{expected ID,”if”,”while”,”print”}");
+            System.out.println("PROGRAM FAILED");
+            System.exit(1);
         }
     }
     public static void Expected(String setOfSymbols){
@@ -467,7 +469,7 @@ public class lexar {
     public static void Assignment() throws IOException {
         if(kind().equals("ID")){
             Match("ID");
-            System.out.println("HI");
+            //System.out.println("HI");
             //ERROR HERE
             Match(":=");
             Expression();
@@ -491,7 +493,8 @@ public class lexar {
                 Match("else");
                 Body();
             }
-            System.out.println("we reached the end");
+            //
+            //System.out.println("we reached the end");
             Match("end");
 
 
@@ -570,6 +573,7 @@ public class lexar {
         }
 
         System.out.println("expected factor at " + Position());
+        System.exit(1);
     }
 
 
